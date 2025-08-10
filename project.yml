@@ -1,0 +1,21 @@
+name: DiaryApp
+options:
+  bundleIdPrefix: com.yourcompany
+configs:
+  Debug: debug
+  Release: release
+settings:
+  INFO_PLIST_FILE: Sources/DiaryApp/Info.plist
+  SWIFT_VERSION: 5.0
+targets:
+  DiaryApp:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: Sources/DiaryApp
+    settings:
+      INFO_PLIST_FILE: Sources/DiaryApp/Info.plist
+    scheme:
+      testTargets: []
+      
