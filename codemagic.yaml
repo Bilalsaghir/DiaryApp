@@ -25,10 +25,15 @@ workflows:
       - name: Export IPA
         script: |
           xcodebuild \
-            -project DiaryApp.xcodeproj \
-            -scheme DiaryApp \
-            -configuration Release \
-            -archivePath $CM_BUILD_DIR/DiaryApp.xcarchive archive | xcpretty
+              -project DiaryApp.xcodeproj \
+              -scheme DiaryApp \
+              -configuration Release \
+              -destination 'generic/platform=iOS' \
+              -archivePath $CM_BUILD_DIR/DiaryApp.xcarchive \
+              archive CODE_SIGN_STYLE=Manual \
+              DEVELOPMENT_TEAM=$APPLE_TEAM_ID \
+              PROVISIONING_PROFILE_SPECIFIER="$PROFILE_NAME" | xcpretty
+
     artifacts:
       - $CM_OUTPUT_DIR/*.ipa
     publishing:
