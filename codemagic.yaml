@@ -1,0 +1,29 @@
+workflows:
+  ios:
+    name: Build iOS IPA
+    environment:
+      xcode: latest
+      cocoapods: default
+      swift: latest
+    scripts:
+      - name: Install XcodeGen
+        script: |
+          brew install xcodegen || echo "XcodeGen installed"
+      - name: Generate Xcode project
+        script: xcodegen generate
+      - name: Build IPA archive
+        script: |
+          xcodebuild -workspace DiaryApp.xcworkspace -scheme DiaryApp -sdk iphoneos -configuration Release archive -archivePath $CM_BUILD_DIR/DiaryApp.xcarchive
+          xcodebuild -exportArchive -archivePath $CM_BUILD_DIR/DiaryApp.xcarchive -exportPath $CM_BUILD_DIR/ -exportOptionsPlist ExportOptions.plist
+    artifacts:
+      - $CM_BUILD_DIR/*.ipa
+    publishing:
+      email:
+        recipients:
+          - your-email@example.com
+        on_success: always
+        on_failure: always
+    triggers:
+      - event: push
+        branch:
+          - main
